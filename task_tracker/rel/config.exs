@@ -19,7 +19,7 @@ use Mix.Releases.Config,
 
 
 get_secret = fn name ->
-  base = Path.expand("~/config/task_tracker")
+  base = Path.expand("~/.config/task_tracker")
   File.mkdir_p!(base)
   path = Path.join(base, name)
   unless File.exists?(path) do

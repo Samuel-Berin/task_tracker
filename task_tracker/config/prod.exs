@@ -10,7 +10,10 @@ use Mix.Config
 # which you should run after static files are built and
 # before starting your production server.
 config :task_tracker, TaskTrackerWeb.Endpoint,
-  http: [:inet6, port: System.get_env("PORT") || 4000],
+  server: true,
+  root: ".",
+  version: Application.spec(:phoenix_distillery, :vsn),
+  http: [:inet6, port: {:system, "PORT"}],
   url: [host: "example.com", port: 80],
   cache_static_manifest: "priv/static/cache_manifest.json"
 
@@ -72,7 +75,7 @@ use Mix.Config
 
 
 get_secret = fn name ->
-  base = Path.expand("~/config/task_tracker")
+  base = Path.expand("~/.config/task_tracker")
   File.mkdir_p!(base)
   path = Path.join(base, name)
   unless File.exists?(path) do
