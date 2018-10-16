@@ -44,13 +44,13 @@ environment :dev do
   # dev mode.
   set dev_mode: true
   set include_erts: false
-  set cookie: : String.to_atom(get_secret.("dev_cookie"))
+  set cookie: String.to_atom(get_secret.("dev_cookie"))
 end
 
 environment :prod do
   set include_erts: true
   set include_src: false
-  set cookie: : String.to_atom(get_secret.("dev_cookie"))
+  set cookie: String.to_atom(get_secret.("dev_cookie"))
 end
 
 # You may define one or more releases in this file.
