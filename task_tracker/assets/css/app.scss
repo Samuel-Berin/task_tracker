@@ -2,3 +2,7 @@
 
 $body-bg: #EEE;
 @import "~bootstrap/scss/bootstrap";
+
+.white_text {
+  $color-text: $white;
+}

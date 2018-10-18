@@ -9,11 +9,7 @@
   <%= text_input f, :name %>
   <%= error_tag f, :name %>
 
-  <%= label f, :email %>
-  <%= text_input f, :email %>
-  <%= error_tag f, :email %>
-
-  <div class="btn btn-primary">
-    <%= submit "Save" %>
+  <div class="btn">
+    <%= submit "Sign Up!" %>
   </div>
 <% end %>

@@ -1,0 +1,42 @@
+<h1>Here's What You Still Have To Do</h1>
+
+
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Description</th>
+      <th>Completed</th>
+      <th>Timespent</th>
+      <th>Assigned To </th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+
+    <%= for task <- @tasks do %>
+
+    <%= if @current_user.id == task.user_id do %>
+
+    <tr>
+      <td><%= task.title %></td>
+      <td><%= task.description %></td>
+      <td><%= task.completed %></td>
+      <td><%= task.timeSpent * 15 %> minutes</td>
+      <td><%= task.assigned_to %></td>
+
+      <td>
+        <%= link "Show", to: Routes.task_path(@conn, :show, task) %>
+        <%= link "Edit", to: Routes.task_path(@conn, :edit, task) %>
+        <%= link "Delete", to: Routes.task_path(@conn, :delete, task), method: :delete, data: [confirm: "Are you sure?"] %>
+      </td>
+    </tr>
+
+    <% end %>
+
+    <% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Task", to: Routes.task_path(@conn, :new) %></span>

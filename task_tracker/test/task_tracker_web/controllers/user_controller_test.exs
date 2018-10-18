@@ -1,14 +1,14 @@
 defmodule TaskTrackerWeb.UserControllerTest do
   use TaskTrackerWeb.ConnCase
 
-  alias TaskTracker.Task_Tracker
+  alias TaskTracker.Users
 
-  @create_attrs %{email: "some email", name: "some name"}
-  @update_attrs %{email: "some updated email", name: "some updated name"}
-  @invalid_attrs %{email: nil, name: nil}
+  @create_attrs %{admin: true, name: "some name"}
+  @update_attrs %{admin: false, name: "some updated name"}
+  @invalid_attrs %{admin: nil, name: nil}
 
   def fixture(:user) do
-    {:ok, user} = Task_Tracker.create_user(@create_attrs)
+    {:ok, user} = Users.create_user(@create_attrs)
     user
   end
 
@@ -60,7 +60,7 @@ defmodule TaskTrackerWeb.UserControllerTest do
       assert redirected_to(conn) == Routes.user_path(conn, :show, user)
 
       conn = get(conn, Routes.user_path(conn, :show, user))
-      assert html_response(conn, 200) =~ "some updated email"
+      assert html_response(conn, 200) =~ "some updated name"
     end
 
     test "renders errors when data is invalid", %{conn: conn, user: user} do

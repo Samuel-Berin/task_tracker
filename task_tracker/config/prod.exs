@@ -14,7 +14,7 @@ config :task_tracker, TaskTrackerWeb.Endpoint,
   root: ".",
   version: Application.spec(:phoenix_distillery, :vsn),
   http: [:inet6, port: {:system, "PORT"}],
-  url: [host: "example.com", port: 80],
+  url: [host: "tasks1.samuel-web-dev.com", port: 80],
   cache_static_manifest: "priv/static/cache_manifest.json"
 
 # Do not print debug messages in production
@@ -101,5 +101,5 @@ config :task_tracker, TaskTrackerWeb.Endpoint,
 config :task_tracker, TaskTracker.Repo,
   username: "task_tracker",
   password: get_secret.("db_pass"),
-  database: "task_tracker_prod",
+  database: "task_tracker",
   pool_size: 15

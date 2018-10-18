@@ -1,5 +1,31 @@
-<div class="row">
-  <div class="col-12">
-    Task Tracker!
+<div class="container">
+
+  <div class="row">
+    <div class="col-12">
+      <h1>Task Tracker</h1>
+      <h3> Manage all of your chores at this one-stop shop! </h3>
+    </div>
+
+
+    <%= if @current_user == nil do %>
+      <p class="my-3">
+        <%= form_for @conn, Routes.session_path(@conn, :create),
+        [class: "form-inline"], fn f -> %>
+        <%= text_input f, :username, class: "form-control" %>
+        <%= submit "Login", class: "btn btn-secondary" %>
+        <% end %>
+      </p>
+
+      <div class="btn btn-primary">
+      <p class="white_text">
+        <%= link "Register Here!", to: Routes.user_path(@conn, :new) %>
+      </p>
+      </div>
+
+    <% end %>
+
+
+
   </div>
+
 </div>

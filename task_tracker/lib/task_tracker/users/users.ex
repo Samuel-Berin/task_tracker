@@ -1,12 +1,12 @@
-defmodule TaskTracker.Task_Tracker do
+defmodule TaskTracker.Users do
   @moduledoc """
-  The Task_Tracker context.
+  The Users context.
   """
 
   import Ecto.Query, warn: false
   alias TaskTracker.Repo
 
-  alias TaskTracker.Task_Tracker.User
+  alias TaskTracker.Users.User
 
   @doc """
   Returns the list of users.
@@ -101,4 +101,16 @@ defmodule TaskTracker.Task_Tracker do
   def change_user(%User{} = user) do
     User.changeset(user, %{})
   end
+
+  def get_user_from_name(name) do
+    Repo.get_by(User, name: name)
+  end
+
+  def get_user_from_id(id) do
+    Repo.get(User, id)
+  end
+
+
+
+
 end
