@@ -1,3 +1,4 @@
+git pull
 cd assets
 export MIX_ENV=prod
 export PORT=4747
@@ -7,3 +8,4 @@ cd ..
 mix phx.digest
 mix compile
 mix release --env=prod
+mix phx.server
