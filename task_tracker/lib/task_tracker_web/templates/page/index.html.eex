@@ -8,7 +8,7 @@
 
 
     <%= if @current_user == nil do %>
-      <p class="my-3">
+      <p class="my-3 col-3 row span9 ">
         <%= form_for @conn, Routes.session_path(@conn, :create),
         [class: "form-inline"], fn f -> %>
         <%= text_input f, :username, class: "form-control" %>
@@ -16,7 +16,7 @@
         <% end %>
       </p>
 
-      <div class="btn btn-primary">
+      <div class="btn btn-secondary fixed-bottom">
       <p class="white_text">
         <%= link "Register Here!", to: Routes.user_path(@conn, :new) %>
       </p>

@@ -6,3 +6,18 @@ $body-bg: #EEE;
 .white_text {
   $color-text: $white;
 }
+
+.btn-secondary {
+  background-color: #FFF;
+  color: blue;
+}
+
+table {
+  background-color: #FFF;
+  border-spacing: 1;
+  border: black 2px;
+}
+
+td, th {
+  padding: 10px;
+}
