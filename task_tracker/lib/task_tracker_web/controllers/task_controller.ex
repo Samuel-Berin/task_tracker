@@ -1,6 +1,7 @@
 defmodule TaskTrackerWeb.TaskController do
   use TaskTrackerWeb, :controller
   import Ecto.Changeset
+  import TaskTracker.Users.User
 
   alias TaskTracker.Tasks
   alias TaskTracker.Tasks.Task
@@ -16,12 +17,29 @@ defmodule TaskTrackerWeb.TaskController do
 
   def new(conn, _params) do
     changeset = Tasks.change_task(%Task{})
-    render(conn, "new.html", changeset: changeset)
+    usersAsDropdown = getUsersCreatedByManager(conn)
+    render(conn, "new.html", changeset: changeset, availableUsers: usersAsDropdown)
+  end
+
+  def getUsersCreatedByManager(conn) do
+    id = get_session(conn, :user_id)
+    users = TaskTracker.Users.get_users_created_by_manager_id(id)
+    usersAsDropdown = [{"Bob", 2}]
+    usersAsDropdown = Enum.reduce users, [], fn user, acc ->
+      userName = user.name
+      userTuple = {userName, user.id}
+      [userTuple | acc]
+    end
   end
 
   def create(conn, %{"task" => task_params}) do
     id = get_session(conn, :user_id)
-    task_params = Map.put(task_params, "user_id", id)
+    assigned_to_val = Enum.at(Map.get(task_params, "assigned_to"), 0)
+    task_params = Map.put(task_params, "assigned_to", assigned_to_val)
+    if id == -1 do
+      task_params = Map.put(task_params, "user_id", id)
+    end
+    usersAsDropdown = getUsersCreatedByManager(conn)
     case Tasks.create_task(task_params) do
       {:ok, task} ->
         conn
@@ -29,7 +47,7 @@ defmodule TaskTrackerWeb.TaskController do
         |> redirect(to: Routes.task_path(conn, :show, task))
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "new.html", changeset: changeset)
+        render(conn, "new.html", changeset: changeset, availableUsers: usersAsDropdown)
     end
   end
 

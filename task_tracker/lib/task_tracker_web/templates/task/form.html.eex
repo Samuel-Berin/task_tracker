@@ -30,8 +30,8 @@
   </br>
 
   <%= label f, :assigned_to %>
-  <%= text_input f, :assigned_to %>
-  <%= error_tag f, :assigned_to %>
+  <%= multiple_select f, :assigned_to, @availableUsers %>
+
   </br>
 
   <div>

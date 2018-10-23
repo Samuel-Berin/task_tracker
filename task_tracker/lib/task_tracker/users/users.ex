@@ -111,7 +111,10 @@ defmodule TaskTracker.Users do
   end
 
   def get_users_created_by_manager_id(id) do
-    Repo.get(User, manager: id)
+    # Work around required to have the ids match
+    me = get_user_from_id(id)
+    users = Repo.all(User)
+    users = Enum.filter(users, fn x -> x.manager == me.id end)
   end
 
 

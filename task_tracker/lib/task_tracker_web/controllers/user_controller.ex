@@ -23,8 +23,7 @@ defmodule TaskTrackerWeb.UserController do
       {:ok, user} ->
         conn
         |> put_flash(:info, "User created successfully.")
-        |> put_session(:user_id, user.id)
-        |> redirect(to: Routes.task_path(conn, :index))
+        |> redirect(to: Routes.user_path(conn, :show, id))
 
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new.html", changeset: changeset)
@@ -33,8 +32,9 @@ defmodule TaskTrackerWeb.UserController do
 
   def show(conn, %{"id" => id}) do
     user = Users.get_user!(id)
+    users = Users.get_users_created_by_manager_id(id)
     manager_name = Users.get_user!(user.manager).name
-    render(conn, "show.html", user: user, manager_name: manager_name)
+    render(conn, "show.html", user: user, users: users, manager_name: manager_name)
   end
 
   def edit(conn, %{"id" => id}) do
