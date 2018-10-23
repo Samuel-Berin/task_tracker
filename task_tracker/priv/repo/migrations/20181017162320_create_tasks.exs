@@ -7,7 +7,7 @@ defmodule TaskTracker.Repo.Migrations.CreateTasks do
       add :description, :string
       add :completed, :boolean, default: false, null: false
       add :timeSpent, :integer
-      add :assigned_to, :string
+      add :assigned_to, :integer
       # Migration changes from Nat's Lecture 12
       add :user_id, references(:users, on_delete: :delete_all)
 

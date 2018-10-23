@@ -1,6 +1,6 @@
 
 
-<%= if @id == 1 do %>
+<%= if @admin do %>
 
 <div>
 

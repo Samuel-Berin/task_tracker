@@ -13,4 +13,4 @@
 alias TaskTracker.Repo
 alias TaskTracker.Users.User
 
-Repo.insert!(%User{name: "Superuser", admin: true})
+Repo.insert!(%User{name: "Superuser", admin: true, manager: 1})

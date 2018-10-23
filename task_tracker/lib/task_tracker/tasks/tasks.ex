@@ -101,4 +101,16 @@ defmodule TaskTracker.Tasks do
   def change_task(%Task{} = task) do
     Task.changeset(task, %{})
   end
+
+  def get_tasks_created_by(id) do
+    tasks = Repo.all(Task)
+    tasks = Enum.filter(tasks, fn x -> x.user_id == id end)
+    tasks
+  end
+
+  def get_tasks_for(id) do
+    tasks = Repo.all(Task)
+    tasks = Enum.filter(tasks, fn x -> x.assigned_to == id end)
+    tasks
+  end
 end

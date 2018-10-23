@@ -110,6 +110,9 @@ defmodule TaskTracker.Users do
     Repo.get(User, id)
   end
 
+  def get_users_created_by_manager_id(id) do
+    Repo.get(User, manager: id)
+  end
 
 
 

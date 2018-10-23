@@ -6,7 +6,11 @@ defmodule TaskTrackerWeb.TaskController do
   alias TaskTracker.Tasks.Task
 
   def index(conn, _params) do
-    tasks = Tasks.list_tasks()
+    id = get_session(conn, :user_id)
+    tasks = Tasks.get_tasks_created_by(id)
+    tasks2 = Tasks.get_tasks_for(id)
+    tasks = tasks ++ tasks2
+    tasks = Enum.uniq(tasks)
     render(conn, "index.html", tasks: tasks)
   end
 

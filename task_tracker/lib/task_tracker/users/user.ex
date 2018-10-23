@@ -6,6 +6,7 @@ defmodule TaskTracker.Users.User do
   schema "users" do
     field :admin, :boolean, default: false
     field :name, :string
+    field :manager, :integer
 
     has_many :tasks, TaskTracker.Tasks.Task
 
