@@ -17,6 +17,8 @@ defmodule TaskTrackerWeb.UserController do
   end
 
   def create(conn, %{"user" => user_params}) do
+    id = get_session(conn, :user_id)
+    user_params = Map.put(user_params, "manager", id)
     case Users.create_user(user_params) do
       {:ok, user} ->
         conn
@@ -31,7 +33,8 @@ defmodule TaskTrackerWeb.UserController do
 
   def show(conn, %{"id" => id}) do
     user = Users.get_user!(id)
-    render(conn, "show.html", user: user)
+    manager_name = Users.get_user!(user.manager).name
+    render(conn, "show.html", user: user, manager_name: manager_name)
   end
 
   def edit(conn, %{"id" => id}) do

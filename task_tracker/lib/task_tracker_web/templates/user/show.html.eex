@@ -8,8 +8,8 @@
   </li>
 
   <li>
-    <strong>Admin:</strong>
-    <%= @user.admin %>
+    <strong>Manager:</strong>
+    <%= @manager_name%>
   </li>
 
 </ul>
