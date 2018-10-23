@@ -11,7 +11,8 @@ defmodule TaskTrackerWeb.UserController do
 
   def new(conn, _params) do
     changeset = Users.change_user(%User{})
-    render(conn, "new.html", changeset: changeset)
+    id = get_session(conn, :user_id)
+    render(conn, "new.html", changeset: changeset, id: id)
   end
 
   def create(conn, %{"user" => user_params}) do
