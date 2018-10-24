@@ -37,7 +37,9 @@
       <td>
         <%= link "Show", to: Routes.task_path(@conn, :show, task) %>
         <%= link "Edit", to: Routes.task_path(@conn, :edit, task) %>
+        <%= if @current_user.admin do %>
         <%= link "Delete", to: Routes.task_path(@conn, :delete, task), method: :delete, data: [confirm: "Are you sure?"] %>
+        <% end %>
       </td>
     </tr>
 

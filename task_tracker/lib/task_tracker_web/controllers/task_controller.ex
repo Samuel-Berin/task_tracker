@@ -81,20 +81,24 @@ defmodule TaskTrackerWeb.TaskController do
   def edit(conn, %{"id" => id}) do
     task = Tasks.get_task!(id)
     changeset = Tasks.change_task(task)
-    render(conn, "edit.html", task: task, changeset: changeset)
+    users = getUsersCreatedByManager(conn)
+    render(conn, "edit.html", task: task, changeset: changeset, availableUsers: users)
   end
 
   def update(conn, %{"id" => id, "task" => task_params}) do
     task = Tasks.get_task!(id)
+    users = getUsersCreatedByManager(conn)
+    assigned_to_val = Enum.at(Map.get(task_params, "assigned_to"), 0)
+    task_params = Map.put(task_params, "assigned_to", assigned_to_val)
 
     case Tasks.update_task(task, task_params) do
       {:ok, task} ->
         conn
         |> put_flash(:info, "Task updated successfully.")
-        |> redirect(to: Routes.task_path(conn, :show, task))
+        |> redirect(to: Routes.task_path(conn, :show, task, users))
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "edit.html", task: task, changeset: changeset)
+        render(conn, "edit.html", task: task, changeset: changeset, availableUsers: users)
     end
   end
 
