@@ -12,7 +12,9 @@ defmodule TaskTrackerWeb.TaskController do
     tasks2 = Tasks.get_tasks_for(id)
     tasks = tasks ++ tasks2
     tasks = Enum.uniq(tasks)
-    render(conn, "index.html", tasks: tasks)
+    users = getUsersAsMapCreatedByManager(conn)
+
+    render(conn, "index.html", tasks: tasks, users: users)
   end
 
   def new(conn, _params) do
@@ -24,13 +26,32 @@ defmodule TaskTrackerWeb.TaskController do
   def getUsersCreatedByManager(conn) do
     id = get_session(conn, :user_id)
     users = TaskTracker.Users.get_users_created_by_manager_id(id)
-    usersAsDropdown = [{"Bob", 2}]
+    users = getUserListAsTuples(users)
+  end
+
+  def getUserListAsTuples(users) do
+    usersAsDropdown = []
     usersAsDropdown = Enum.reduce users, [], fn user, acc ->
       userName = user.name
       userTuple = {userName, user.id}
       [userTuple | acc]
     end
   end
+
+  def getUserListAsMap(users) do
+    usersAsMap = Enum.reduce users, %{}, fn user, acc ->
+      userID = user.id
+      Map.put(acc, user.id, user.name)
+    end
+  end
+
+  def getUsersAsMapCreatedByManager(conn) do
+    id = get_session(conn, :user_id)
+    users = TaskTracker.Users.get_users_created_by_manager_id(id)
+    users = [TaskTracker.Users.get_user!(id) | users]
+    getUserListAsMap(users)
+  end
+
 
   def create(conn, %{"task" => task_params}) do
     id = get_session(conn, :user_id)
@@ -53,7 +74,8 @@ defmodule TaskTrackerWeb.TaskController do
 
   def show(conn, %{"id" => id}) do
     task = Tasks.get_task!(id)
-    render(conn, "show.html", task: task)
+    users = getUsersAsMapCreatedByManager(conn)
+    render(conn, "show.html", task: task, users: users)
   end
 
   def edit(conn, %{"id" => id}) do

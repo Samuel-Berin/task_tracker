@@ -27,6 +27,11 @@
 
 <% end %>
 
+
+<%= if @user.admin do %>
+
 <span><%= link "Add User", to: Routes.user_path(@conn, :new) %></span>
 <span><%= link "Edit", to: Routes.user_path(@conn, :edit, @user) %></span>
+
+<% end %>
 <span><%= link "Back", to: Routes.task_path(@conn, :index) %></span>

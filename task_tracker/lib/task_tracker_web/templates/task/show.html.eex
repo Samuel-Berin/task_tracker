@@ -24,7 +24,7 @@
 
   <li>
     <strong> Assigned To: </strong>
-    <%= @task.assigned_to %>
+    <%= Map.get(@users, @task.assigned_to) %>
   </li>
 
 </ul>

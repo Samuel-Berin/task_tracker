@@ -32,7 +32,7 @@
       <td><%= task.description %></td>
       <td><%= task.completed %></td>
       <td><%= task.timeSpent * 15 %> minutes</td>
-      <td><%= task.assigned_to %></td>
+      <td><%= Map.get(@users, task.assigned_to) %> </td>
 
       <td>
         <%= link "Show", to: Routes.task_path(@conn, :show, task) %>
