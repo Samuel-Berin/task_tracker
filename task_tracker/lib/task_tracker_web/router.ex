@@ -14,6 +14,13 @@ defmodule TaskTrackerWeb.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :ajax do
+    plug :accepts, ["json"]
+    plug :fetch_session
+    plug :fetch_flash
+    plug TaskTrackerWeb.Plugs.FetchSession
+  end
+
   scope "/", TaskTrackerWeb do
     pipe_through :browser
 
@@ -22,6 +29,11 @@ defmodule TaskTrackerWeb.Router do
     resources "/tasks", TaskController
     # Taken from Nat's Notes and github.com/NatTuck/husky_shop/lib/husky_shop_web/router.ex
     resources "/sessions", SessionController, only: [:create, :delete], singleton: true
+  end
+
+  scope "/ajax", TaskTrackerWeb do
+    pipe_through :ajax
+    resources "/timeblocks", TimeblockController, except: [:new, :edit]
   end
 
   # Other scopes may use custom stacks.

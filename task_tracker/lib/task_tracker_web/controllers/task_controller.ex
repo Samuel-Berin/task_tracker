@@ -20,7 +20,7 @@ defmodule TaskTrackerWeb.TaskController do
   def new(conn, _params) do
     changeset = Tasks.change_task(%Task{})
     usersAsDropdown = getUsersCreatedByManager(conn)
-    render(conn, "new.html", changeset: changeset, availableUsers: usersAsDropdown)
+    render(conn, "new.html", changeset: changeset, availableUsers: usersAsDropdown, task: %Task{})
   end
 
   def getUsersCreatedByManager(conn) do
@@ -55,12 +55,18 @@ defmodule TaskTrackerWeb.TaskController do
 
   def create(conn, %{"task" => task_params}) do
     id = get_session(conn, :user_id)
+    task_id = length(TaskTracker.Tasks.list_tasks()) + 1
     assigned_to_val = Enum.at(Map.get(task_params, "assigned_to"), 0)
     task_params = Map.put(task_params, "assigned_to", assigned_to_val)
     if id == -1 do
       task_params = Map.put(task_params, "user_id", id)
     end
+    time_params = %{start: "01/01/2000 00:00:00", end: "01/01/2000 00:00:00"}
+    timeblock = TaskTracker.Timeblocks.create_timeblock(time_params)
+
+    task_params = Map.put(task_params, "timeblock", timeblock)
     usersAsDropdown = getUsersCreatedByManager(conn)
+    IO.inspect(task_params)
     case Tasks.create_task(task_params) do
       {:ok, task} ->
         conn
@@ -75,6 +81,9 @@ defmodule TaskTrackerWeb.TaskController do
   def show(conn, %{"id" => id}) do
     task = Tasks.get_task!(id)
     users = getUsersAsMapCreatedByManager(conn)
+    IO.inspect(task)
+
+
     render(conn, "show.html", task: task, users: users)
   end
 

@@ -18,8 +18,13 @@
   </li>
 
   <li>
-    <strong>Timespent:</strong>
-    <%= @task.timeSpent %>
+    <strong>Time Started:</strong>
+    <div id="displayStart"> </div>
+  </li>
+
+  <li>
+    <strong>Time Ended:</strong>
+    <div id="displayEnd"> </div>
   </li>
 
   <li>
@@ -28,6 +33,8 @@
   </li>
 
 </ul>
+
+<div hidden id="getTaskId"><%= @task.id %></div>
 
 <span><%= link "Edit", to: Routes.task_path(@conn, :edit, @task) %></span>
 <span><%= link "Back", to: Routes.task_path(@conn, :index) %></span>

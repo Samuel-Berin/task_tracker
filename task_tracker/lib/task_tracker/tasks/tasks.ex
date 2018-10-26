@@ -35,7 +35,11 @@ defmodule TaskTracker.Tasks do
       ** (Ecto.NoResultsError)
 
   """
-  def get_task!(id), do: Repo.get!(Task, id)
+  def get_task!(id) do
+    Repo.one! from t in Task,
+    where: (t.id == ^id),
+    preload: [:timeblock]
+  end
 
   @doc """
   Creates a task.
@@ -105,14 +109,14 @@ defmodule TaskTracker.Tasks do
   end
 
   def get_tasks_created_by(id) do
-    tasks = Repo.all(Task)
-    tasks = Enum.filter(tasks, fn x -> x.user_id == id end)
-    tasks
+    Repo.all from t in Task,
+    where: (t.user_id == ^id),
+    preload: [:timeblock]
   end
 
   def get_tasks_for(id) do
-    tasks = Repo.all(Task)
-    tasks = Enum.filter(tasks, fn x -> x.assigned_to == id end)
-    tasks
+    Repo.all from t in Task,
+    where: (t.assigned_to == ^id),
+    preload: [:timeblock]
   end
 end

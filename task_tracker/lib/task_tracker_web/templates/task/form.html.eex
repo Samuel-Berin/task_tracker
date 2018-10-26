@@ -23,18 +23,22 @@
   <%= error_tag f, :completed %>
   </br>
 
-  <%= label f, :timeSpent %>
-  (in fifteen minute increments)
-  <%= number_input f, :timeSpent %>
-  <%= error_tag f, :timeSpent %>
-  </br>
+  Start Time <input type="datetime" name="start" id="startTime">
+</br>
+End Time <input type="datetime" name="end" id="endTime">
+</br>
+
+<div hidden id="getTaskId"><%= @task.id %></div>
+
+
+
 
   <%= label f, :assigned_to %>
   <%= multiple_select f, :assigned_to, @availableUsers %>
 
   </br>
 
-  <div>
-    <%= submit "Save" %>
-  </div>
+  <button class="btn btn-primary" id="FormSubmit"> Submit </button>
+</br>
+
 <% end %>
